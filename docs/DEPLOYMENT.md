@@ -4,9 +4,10 @@ The repository defaults to Robinhood Chain Testnet (chain ID `46630`). The verif
 
 1. Install Foundry and run `cd contracts && forge install foundry-rs/forge-std && forge test`.
 2. Fund a deployment wallet with testnet ETH from the official faucet.
-3. Set `RH_RPC_URL` and `PRIVATE_KEY` in your shell only. Never commit either.
-4. Run `forge script script/Deploy.s.sol:Deploy --rpc-url $RH_RPC_URL --broadcast` from `contracts/`.
-5. Verify with Blockscout and put the verified address in `NEXT_PUBLIC_LAST_SIGNAL_ADDRESS`.
-6. Apply the Prisma schema using `npx prisma migrate dev`, then run `npm run indexer`.
+3. Use an encrypted keystore or hardware/interactively signed account. Do not paste or commit a raw private key. Configure `DEPLOYER_KEYSTORE_PATH` and a separate `DEPLOYER_KEYSTORE_PASSWORD_FILE` locally.
+4. Run the preflight checks (`npm run check:chain`, `npm run check:env`, `forge build`, `forge test -vvv`). Confirm chain ID `46630`, deployer address and balance.
+5. Only after explicit authorization, run `forge script script/DeployLastSignal.s.sol:DeployLastSignal --rpc-url robinhood_testnet --keystore <path> --password-file <path> --broadcast` from `contracts/`.
+6. Verify receipt status and bytecode using `npm run check:contract`, then verify source with the Blockscout API.
+7. Record the real address and deployment block in local environment variables. Run `npx prisma migrate deploy`, then `npm run indexer`.
 
 No deployment has been executed by this repository.

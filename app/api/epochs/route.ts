@@ -1,0 +1,1 @@
+import {NextResponse} from 'next/server'; import {prisma} from '@/lib/prisma'; export async function GET(){const rows=await prisma.epoch.findMany({orderBy:{id:'desc'},take:100});return NextResponse.json(rows.map(x=>({...x,id:x.id.toString(),startBlock:x.startBlock.toString(),finalizeBlock:x.finalizeBlock?.toString()||null})));}

@@ -1,0 +1,2 @@
+import {getAddress} from 'viem'; import {lastSignalClient} from '../lib/contracts/last-signal';
+async function main(){const raw=process.env.NEXT_PUBLIC_LAST_SIGNAL_ADDRESS;if(!raw){console.log('BLOCKED: NEXT_PUBLIC_LAST_SIGNAL_ADDRESS is missing; no deployment is claimed');process.exit(2);}const address=getAddress(raw);const code=await lastSignalClient.getCode({address});if(!code||code==='0x')throw new Error('FAIL: configured address has no bytecode');console.log(JSON.stringify({status:'PASS',address,bytecodeBytes:(code.length-2)/2},null,2));}main();

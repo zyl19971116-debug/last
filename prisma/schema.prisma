@@ -5,8 +5,28 @@ datasource db {
   provider = "postgresql"
   url = env("DATABASE_URL")
 }
+
+model Epoch {
+  id BigInt @id
+  chainId Int
+  startTime DateTime
+  endTime DateTime
+  totalSignals Int @default(0)
+  uniqueParticipants Int @default(0)
+  totalExtensionSeconds Int @default(0)
+  status String
+  startBlock BigInt
+  finalizeBlock BigInt?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  signals Signal[]
+  participants Participant[]
+  @@unique([chainId, id])
+}
+
 model Signal {
   id String @id @default(cuid())
+  chainId Int
   epochId BigInt
   wallet String
   timestamp DateTime
@@ -16,20 +36,68 @@ model Signal {
   transactionHash String
   logIndex Int
   points Int @default(10)
-  @@unique([transactionHash, logIndex])
-  @@index([epochId, wallet])
+  epoch Epoch @relation(fields:[epochId],references:[id])
+  @@unique([chainId, transactionHash, logIndex])
+  @@index([chainId, epochId, wallet])
+  @@index([chainId, blockNumber])
 }
-model SyncCursor {
+
+model Participant {
+  id String @id @default(cuid())
+  chainId Int
+  epochId BigInt
+  wallet String
+  signalCount Int @default(0)
+  points Int @default(0)
+  firstSignalAt DateTime
+  lastSignalAt DateTime
+  epoch Epoch @relation(fields:[epochId],references:[id])
+  @@unique([chainId, epochId, wallet])
+  @@index([chainId, wallet])
+}
+
+model IndexerCursor {
   chainId Int @id
   nextBlock BigInt
   lastBlockHash String?
+  chainHead BigInt?
+  error String?
   updatedAt DateTime @updatedAt
 }
-model IndexedBlock {
+
+model BlockCheckpoint {
   chainId Int
   blockNumber BigInt
   blockHash String
   parentHash String
   createdAt DateTime @default(now())
   @@id([chainId, blockNumber])
+}
+
+model Reward {
+  id String @id @default(cuid())
+  chainId Int
+  wallet String
+  epochId BigInt?
+  kind String
+  points Int @default(0)
+  sourceTransactionHash String?
+  createdAt DateTime @default(now())
+  @@unique([chainId, wallet, epochId, kind])
+}
+
+model Achievement {
+  id String @id @default(cuid())
+  chainId Int
+  wallet String
+  epochId BigInt?
+  kind String
+  unlockedAt DateTime
+  sourceTransactionHash String?
+  @@unique([chainId, wallet, epochId, kind])
+}
+
+model HealthProbe {
+  marker String @id
+  createdAt DateTime @default(now())
 }

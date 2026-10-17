@@ -2,9 +2,14 @@ node_modules
 .next
 .env
 .env.local
+.env.*.local
+*.keystore
+*.password
 coverage
 contracts/cache
 contracts/out
+contracts/broadcast
+contracts/lib
 playwright-report
 test-results
 *.tsbuildinfo

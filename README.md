@@ -32,3 +32,7 @@ Set a WalletConnect project ID and a verified deployed contract address for wall
 - Rankings and points derive only from confirmed `SignalSent` logs.
 - There is no deployed rewards or ERC-20 contract in the MVP.
 - Public RPC outages surface as errors; they do not trigger mock data.
+
+## Phase 7 checks
+
+Run `npm run check:chain`, `npm run check:env`, `npm run check:database`, `npm run check:contract`, and `npm run check:indexer`. These checks redact secret values and return `BLOCKED` when required external configuration is absent. See `docs/PHASE7_AUDIT.md` and `docs/PHASE7_REPORT.md`.
