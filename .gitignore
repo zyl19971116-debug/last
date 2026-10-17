@@ -7,3 +7,4 @@ contracts/cache
 contracts/out
 playwright-report
 test-results
+*.tsbuildinfo
