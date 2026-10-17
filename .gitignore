@@ -1,0 +1,9 @@
+node_modules
+.next
+.env
+.env.local
+coverage
+contracts/cache
+contracts/out
+playwright-report
+test-results

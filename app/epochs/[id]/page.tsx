@@ -1,0 +1,1 @@
+import {InfoPage} from '@/components/info-page'; export default async function Page({params}:{params:Promise<{id:string}>}){const {id}=await params;return <InfoPage kicker="EPOCH ARCHIVE" title={`EPOCH #${id}`} intro="Timeline and participation data are derived from confirmed events."><div className="empty-large">No indexed record exists for this epoch.</div></InfoPage>}

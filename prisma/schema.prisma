@@ -1,0 +1,35 @@
+generator client {
+  provider = "prisma-client-js"
+}
+datasource db {
+  provider = "postgresql"
+  url = env("DATABASE_URL")
+}
+model Signal {
+  id String @id @default(cuid())
+  epochId BigInt
+  wallet String
+  timestamp DateTime
+  extensionSeconds Int
+  blockNumber BigInt
+  blockHash String
+  transactionHash String
+  logIndex Int
+  points Int @default(10)
+  @@unique([transactionHash, logIndex])
+  @@index([epochId, wallet])
+}
+model SyncCursor {
+  chainId Int @id
+  nextBlock BigInt
+  lastBlockHash String?
+  updatedAt DateTime @updatedAt
+}
+model IndexedBlock {
+  chainId Int
+  blockNumber BigInt
+  blockHash String
+  parentHash String
+  createdAt DateTime @default(now())
+  @@id([chainId, blockNumber])
+}

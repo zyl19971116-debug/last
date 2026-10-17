@@ -1,0 +1,1 @@
+import {InfoPage} from '@/components/info-page'; import {SignalConsole} from '@/components/signal-console'; export default function Page(){return <InfoPage kicker="TRANSMIT" title="SEND A SIGNAL" intro="One wallet. One confirmed signal per UTC day. Exactly one hour added, subject to the epoch cap."><SignalConsole/></InfoPage>}
