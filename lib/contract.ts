@@ -1,4 +1,5 @@
-export const CONTRACT_ADDRESS=process.env.NEXT_PUBLIC_LAST_SIGNAL_ADDRESS as `0x${string}`|undefined;
+const localRequested=process.env.NEXT_PUBLIC_ENABLE_LOCAL_CHAIN==='true';
+export const CONTRACT_ADDRESS=(process.env.NODE_ENV==='production'&&localRequested?undefined:process.env.NEXT_PUBLIC_LAST_SIGNAL_ADDRESS) as `0x${string}`|undefined;
 export const lastSignalAbi=[
  {type:'function',name:'sendSignal',stateMutability:'nonpayable',inputs:[],outputs:[]},
  {type:'function',name:'startNextEpoch',stateMutability:'nonpayable',inputs:[],outputs:[]},

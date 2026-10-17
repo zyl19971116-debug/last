@@ -1,6 +1,10 @@
 import {Prisma,PrismaClient} from '@prisma/client';
 import {createPublicClient,http,parseAbi} from 'viem';
-import network from '../config/network.json';
+import productionNetwork from '../config/network.json';
+
+const localMode=process.env.NODE_ENV==='development'&&process.env.NEXT_PUBLIC_ENABLE_LOCAL_CHAIN==='true';
+const network=localMode?{...productionNetwork,chainId:31337,publicRpcUrl:'http://127.0.0.1:8545'}:productionNetwork;
+if(localMode&&process.env.INDEXER_RPC_URL!=='http://127.0.0.1:8545')throw new Error('Local indexer RPC must be http://127.0.0.1:8545');
 
 const db=new PrismaClient();
 const address=process.env.NEXT_PUBLIC_LAST_SIGNAL_ADDRESS as `0x${string}`|undefined;
