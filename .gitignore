@@ -12,4 +12,5 @@ contracts/broadcast
 contracts/lib
 playwright-report
 test-results
+work
 *.tsbuildinfo
