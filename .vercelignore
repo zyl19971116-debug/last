@@ -1,0 +1,15 @@
+.git
+.next
+node_modules
+work
+outputs
+test-results
+playwright-report
+coverage
+contracts/cache
+contracts/out
+contracts/broadcast
+contracts/lib
+*.tsbuildinfo
+.env.local
+.env.*.local
